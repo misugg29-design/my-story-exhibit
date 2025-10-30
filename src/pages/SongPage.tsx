@@ -319,13 +319,13 @@ export default function SongPage() {
   return (
     <Section>
       {/* 페이지 제목 */}
-      <PageTitle>노래</PageTitle>
+      <PageTitle>음악</PageTitle>
       
       {/* 콘텐츠 그리드 - 가사와 오디오 섹션 */}
       <ContentGrid>
         {/* 가사 섹션 */}
         <SectionContainer>
-          <SectionTitle>글</SectionTitle>
+          <SectionTitle></SectionTitle>
           <Grid>
             {/* 가사 목록 렌더링 - map으로 반복 */}
             {songTexts.map((text) => (
