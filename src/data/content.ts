@@ -2,7 +2,6 @@
 export const dotlineImages = [
   { title: '점선면 이미지 1', src: '/images/dotline1.jpg' },
   { title: '점선면 이미지 2', src: '/images/dotline2.jpg' },
-  { title: '점선면 이미지 3', src: '/images/dotline3.jpg' },
 ]
 
 export const dotlineAudio = [
