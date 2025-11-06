@@ -5,7 +5,7 @@ export const dotlineImages = [
 ]
 
 export const dotlineAudio = [
-  { id: 'da1', title: '나의인생 음악', src: '/audio/New_Project.mp3' },
+  { id: 'da1', title: '나의인생점선면 음악', src: '/audio/New_Project.mp3' },
 ]
 
 // 시 페이지 데이터
@@ -18,10 +18,12 @@ export const poetryTexts = [
     id: 'pt1', 
 
     title: '달려가던 아이, 사랑이 된 아이', 
-
     
-    content: `기억의 첫 장,
 
+       
+
+    content:    
+    `기억의 첫 장,
 햇살 속에서 나는 달리고 있었지.
 문 앞에서 웃으며 서 있는
 엄마를 향해, 두 팔 벌리고.
