@@ -10,18 +10,6 @@ const Section = styled.section`
   padding: 2rem 0;  // 상하 패딩
 `
 
-// 페이지 제목 - 그라데이션 텍스트 효과
-const PageTitle = styled.h2`
-  font-size: 2.5rem;
-  text-align: center;
-  margin-bottom: 3rem;
-  // 그라데이션 텍스트 효과
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-`
-
 // 콘텐츠 그리드 - 섹션들 간의 간격
 const ContentGrid = styled.div`
   display: grid;
@@ -100,20 +88,13 @@ const ImageCard = styled(Card)`
 // 이미지 스타일 - 호버 시 확대 효과
 const Image = styled.img`
   width: 100%;
-  border-radius: 8px;
+  border-radius: 7.5px;
   margin-bottom: 1rem;
   transition: transform 0.3s ease;
   
   &:hover {
     transform: scale(1.02);  // 2% 확대
   }
-`
-
-// 이미지 캡션 (현재 사용되지 않음)
-const ImageCaption = styled.figcaption`
-  font-weight: 600;
-  color: #495057;
-  font-size: 1.1rem;
 `
 
 // 텍스트 카드 - 왼쪽 정렬

@@ -1,5 +1,7 @@
 // React Router DOM - 페이지 라우팅을 위한 라이브러리
 import { Link, NavLink, Outlet, Route, Routes } from 'react-router-dom'
+// React Hooks - 상태 관리
+import { useState, useEffect, useRef } from 'react'
 // Styled Components - CSS-in-JS 스타일링 라이브러리
 import styled from 'styled-components'
 // 각 페이지 컴포넌트들 import
@@ -20,12 +22,12 @@ const Container = styled.div`
 
 // 헤더 영역 - 그라데이션 배경과 그림자 효과
 const Header = styled.header`
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); // 대각선 그라데이션
-  color: white;
+  background: linear-gradient(135deg, #FFE4E1 0%, #FFB6C1 100%); // 연한 핑크 그라데이션
+  color: #2c1810;
   padding: 1rem 0;
   margin-bottom: 2rem;
   border-radius: 0 0 20px 20px;  // 하단 모서리만 둥글게
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);  // 그림자 효과
+  box-shadow: 0 4px 20px rgba(255, 182, 193, 0.3);  // 그림자 효과
 `
 
 // 브랜드 로고 링크 - 호버 시 확대 효과
@@ -33,14 +35,34 @@ const Brand = styled(Link)`
   font-size: 1.8rem;
   font-weight: bold;
   text-decoration: none;
-  color: white;
+  color: #2c1810;
   display: block;
   text-align: center;
   margin-bottom: 1rem;
   transition: transform 0.3s ease;  // 부드러운 애니메이션
+  min-height: 2rem;  // 타이핑 효과를 위한 최소 높이
   
   &:hover {
     transform: scale(1.05);  // 호버 시 5% 확대
+  }
+`
+
+// 타이핑 커서 스타일
+const TypingCursor = styled.span`
+  display: inline-block;
+  width: 2px;
+  height: 1.2em;
+  background-color: #2c1810;
+  margin-left: 2px;
+  animation: blink 1s infinite;
+  
+  @keyframes blink {
+    0%, 50% {
+      opacity: 1;
+    }
+    51%, 100% {
+      opacity: 0;
+    }
   }
 `
 
@@ -59,7 +81,7 @@ const Nav = styled.nav`
 
 // 네비게이션 링크 - 활성 상태와 호버 효과
 const NavLinkStyled = styled(NavLink)`
-  color: white;
+  color: #2c1810;
   text-decoration: none;
   padding: 0.5rem 1rem;
   border-radius: 25px;      // 둥근 모서리
@@ -67,13 +89,13 @@ const NavLinkStyled = styled(NavLink)`
   font-weight: 500;
   
   &:hover {
-    background: rgba(255,255,255,0.2);  // 반투명 흰색 배경
+    background: rgba(255,255,255,0.5);  // 반투명 흰색 배경
     transform: translateY(-2px);         // 위로 2px 이동
   }
   
   &.active {
-    background: rgba(255,255,255,0.3);  // 활성 상태 배경
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2); // 그림자 효과
+    background: rgba(255,255,255,0.7);  // 활성 상태 배경
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); // 그림자 효과
   }
 `
 
@@ -83,6 +105,57 @@ const Main = styled.main`
   padding: 2rem 0;   // 상하 패딩
 `
 
+// ===== TYPING EFFECT COMPONENT =====
+// 타이핑 효과를 위한 컴포넌트 (무한 반복)
+function TypingText({ text, speed = 100, delay = 2000 }: { text: string; speed?: number; delay?: number }) {
+  const [displayedText, setDisplayedText] = useState('')
+  const isDeletingRef = useRef(false)
+  const currentIndexRef = useRef(0)
+
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout
+
+    const type = () => {
+      if (!isDeletingRef.current) {
+        // 타이핑 중
+        if (currentIndexRef.current < text.length) {
+          setDisplayedText(text.slice(0, currentIndexRef.current + 1))
+          currentIndexRef.current++
+          timeoutId = setTimeout(type, speed)
+        } else {
+          // 타이핑 완료 후 잠시 대기
+          timeoutId = setTimeout(() => {
+            isDeletingRef.current = true
+            timeoutId = setTimeout(type, speed / 2) // 삭제는 더 빠르게
+          }, delay)
+        }
+      } else {
+        // 삭제 중
+        if (currentIndexRef.current > 0) {
+          setDisplayedText(text.slice(0, currentIndexRef.current - 1))
+          currentIndexRef.current--
+          timeoutId = setTimeout(type, speed / 2)
+        } else {
+          // 삭제 완료 후 다시 시작
+          isDeletingRef.current = false
+          timeoutId = setTimeout(type, speed)
+        }
+      }
+    }
+
+    timeoutId = setTimeout(type, speed)
+
+    return () => clearTimeout(timeoutId)
+  }, [text, speed, delay])
+
+  return (
+    <>
+      {displayedText}
+      <TypingCursor />
+    </>
+  )
+}
+
 // ===== LAYOUT COMPONENT =====
 // 전체 레이아웃을 담당하는 컴포넌트
 function Layout() {
@@ -91,12 +164,20 @@ function Layout() {
       {/* 헤더 영역 - 브랜드와 네비게이션 */}
       <Header>
         {/* 브랜드 로고 - 홈으로 이동하는 링크 */}
-        <Brand to="/">My Story Exhibit</Brand>
+        <Brand to="/">
+          <TypingText text="My Story Exhibit" speed={80} />
+        </Brand>
         {/* 네비게이션 메뉴 */}
         <Nav>
-          <NavLinkStyled to="/dotline">인생그래프</NavLinkStyled>
-          <NavLinkStyled to="/poetry">시</NavLinkStyled>
-          <NavLinkStyled to="/song">노래</NavLinkStyled>
+          <NavLinkStyled to="/dotline">
+            <TypingText text="인생그래프" speed={100} delay={1500} />
+          </NavLinkStyled>
+          <NavLinkStyled to="/poetry">
+            <TypingText text="시" speed={100} delay={2000} />
+          </NavLinkStyled>
+          <NavLinkStyled to="/song">
+            <TypingText text="노래" speed={100} delay={2500} />
+          </NavLinkStyled>
         </Nav>
       </Header>
       {/* 메인 콘텐츠 영역 - Outlet으로 하위 페이지 렌더링 */}
