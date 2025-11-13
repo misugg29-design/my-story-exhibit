@@ -88,7 +88,7 @@ const ImageCard = styled(Card)`
 // 이미지 스타일 - 호버 시 확대 효과
 const Image = styled.img`
   width: 100%;
-  border-radius: 8px;
+  border-radius: 7.5px;
   margin-bottom: 1rem;
   transition: transform 0.3s ease;
   
