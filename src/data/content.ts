@@ -5,7 +5,7 @@ export const dotlineImages = [
 ]
 
 export const dotlineAudio = [
-  { id: 'da1', title: '나의인생점선면 음악', src: '/audio/New_Project.mp3' },
+  { id: 'da1', title: '나의인생점선면 음악', src: '/audio/New_Project2.mp3' },
 ]
 
 // 시 페이지 데이터
